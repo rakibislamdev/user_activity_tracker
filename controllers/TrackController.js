@@ -3,23 +3,13 @@ const multer = require('multer');
 
 // ------------- Add new track ------------------ \\
 const store = (req, res, next) => {
-    // here i want to upload image using multer
-    const storage = multer.diskStorage({
-        destination: function (req, file, cb) {
-            cb(null, './uploads/');
-        },
-        filename: function (req, file, cb) {
-            cb(null, file.originalname);
-        }
-    });
-
-    const upload = multer({ storage: storage });
+    const uploadFile = req.file;
 
     let track = new Track({
         login: req.body.login,
         performance: req.body.performance,
         interval: req.body.interval,
-        image: req.file.path,
+        image: uploadFile.path,
     });
 
     track.save()
