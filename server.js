@@ -2,11 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-
+const UserRoutes = require('./routes/user');
 const app = express();
 
 // Database
-mongoose.connect('mongodb://localhost:27017/user-tracking-api', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/your-database', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
 
 const db = mongoose.connection;
 
@@ -31,6 +34,4 @@ app.listen(PORT, () => {
     console.log(`Server listening at port ${PORT}`);
 });
 
-
-
-
+app.use('/api/user', UserRoutes);
