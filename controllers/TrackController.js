@@ -1,5 +1,4 @@
 const Track = require('../models/Track');
-const multer = require('multer');
 
 // ------------- Add new track ------------------ \\
 const store = (req, res, next) => {
@@ -37,6 +36,20 @@ const showTrack = (req, res, next) => {
         });
 };
 
+// ------------ show track by login ----------------- \\
+const showTrackByLogin = (req, res, next) => {
+    let login = req.body.login;
+    Track.find({ login: login })
+        .then(response => {
+            res.json({ response });
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ message: 'Oops! An error occurred!' });
+        });
+};
+
+
 module.exports = {
-    store, showTrack
+    store, showTrack, showTrackByLogin
 }
