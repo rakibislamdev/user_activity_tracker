@@ -33,7 +33,7 @@ const showTrack = (req, res, next) => {
         })
         .catch(error => {
             console.error(error);
-            res.status(500).json({ message: 'An error occurred!' });
+            res.status(500).json({ message: 'Oops! An error occurred!' });
         });
 };
 
