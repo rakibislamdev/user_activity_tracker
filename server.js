@@ -6,7 +6,7 @@ const UserRoutes = require('./routes/user');
 const app = express();
 
 // Database
-mongoose.connect('mongodb://localhost:27017/your-database', {
+mongoose.connect('mongodb://localhost:27017/user-tracking-api', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
