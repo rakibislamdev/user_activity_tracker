@@ -2,7 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const UserRoutes = require('./routes/user');
+const multer = require('multer');
+const routes = require('./routes/routes');
 const app = express();
 
 // Database
@@ -34,4 +35,4 @@ app.listen(PORT, () => {
     console.log(`Server listening at port ${PORT}`);
 });
 
-app.use('/api/user', UserRoutes);
+app.use('/api/user', routes);

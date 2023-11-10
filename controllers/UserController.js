@@ -43,43 +43,9 @@ const store = (req, res, next) => {
         });
 };
 
-// ------------- Update user ------------------ \\
-const update = (req, res, next) => {
-    let user_id = req.body.user_id;
-
-    let updatedData = {
-        user_id: req.body.user_id,
-        name: req.body.name,
-        email: req.body.email,
-        designation: req.body.designation,
-    };
-
-    User.findByIdAndUpdate(user_id, { $set: updatedData })
-        .then(() => {
-            res.json({ message: 'User Updated Successfully!' });
-        })
-        .catch(error => {
-            console.error(error);
-            res.status(500).json({ message: 'An error occurred!' });
-        });
-};
-
-// ------------- Delete user ------------------ \\
-const destroy = (req, res, next) => {
-    let user_id = req.body.user_id;
-    User.findByIdAndRemove(user_id)
-        .then(() => {
-            res.json({ message: 'User Deleted Successfully!' });
-        })
-        .catch(error => {
-            console.error(error);
-            res.status(500).json({ message: 'An error occurred!' });
-        });
-};
 
 module.exports = {
     index,
     store,
-    update,
-    destroy,
+    showUser
 };
