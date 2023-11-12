@@ -14,6 +14,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // routes
+app.get('/', (req, res) => {
+    res.send('Welcome to the User Performance Tracking API');
+});
+
+// api routes
 app.use('/api/user', routes);
 
 // Start the server

@@ -8,9 +8,9 @@ const LoginController = require('../controllers/LoginController');
 
 
 // user routes
-router.get('/', UserController.index);
+router.get('/all-users', UserController.getAllUsers);
 router.post('/show', UserController.showUser);
-router.post('/add-user', UserController.store);
+router.post('/add-user', UserController.createUser);
 
 // login routes
 router.post('/login', LoginController.login);

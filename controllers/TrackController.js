@@ -1,4 +1,4 @@
-const Track = require('../models/Track');
+const Track = require('../models/TrackModel');
 
 // ------------- Add new track ------------------ \\
 const store = (req, res, next) => {

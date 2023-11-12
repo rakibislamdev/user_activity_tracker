@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const User = require('../models/UserModel');
 
 // ----------- login user -------------- \\
 const login = (req, res, next) => {

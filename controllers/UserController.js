@@ -1,51 +1,54 @@
-const User = require('../models/User');
+const User = require('../models/UserModel');
 
-// ------------- Index all users ------------------ \\
-const index = (req, res, next) => {
-    User.find()
-        .then(response => {
-            res.json({ response });
-        })
-        .catch(error => {
-            console.error(error); // Log the error for debugging
-            res.status(500).json({ message: 'An error occurred!' });
-        });
+// Get all users
+const getAllUsers = async (req, res, next) => {
+    try {
+        const users = await User.find();
+
+        if (users.length === 0) {
+            return res.status(400).json({ status: false, message: 'No users found!' });
+        }
+        res.json({ status: true, message: 'Your command successfully executed.', data: users });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: false, message: 'An error occurred!', errors: error });
+    }
 };
 
-// ------------- Show single user ------------------ \\
-const showUser = (req, res, next) => {
-    let user_id = req.body.user_id;
-    User.findById(user_id)
-        .then(response => {
-            res.json({ response });
-        })
-        .catch(error => {
-            console.error(error);
-            res.status(500).json({ message: 'An error occurred!' });
-        });
+// Show single user
+const showUser = async (req, res, next) => {
+    try {
+        const user = await User.findOne({ user_id: req.params.user_id });
+
+        if (!user) {
+            return res.status(400).json({ status: false, message: 'No user found!' });
+        }
+        res.json({ status: true, message: 'Your command successfully executed.', data: user});
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: false, message: 'An error occurred!', errors: error });
+    }
 };
 
-// ------------- Add new user ------------------ \\
-const store = (req, res, next) => {
-    let user = new User({
-        user_id: req.body.user_id,
-        name: req.body.name,
-        email: req.body.email,
-        designation: req.body.designation,
-    });
-    user.save()
-        .then(response => {
-            res.json({ message: 'User Added Successfully!' });
-        })
-        .catch(error => {
-            console.error(error);
-            res.status(500).json({ message: 'An error occurred!' });
-        });
-};
+// Add new user
+const createUser = async (req, res, next) => {
+    try {
+        const { user_id, name, email, designation } = req.body;
+        const user = new User({ user_id, name, email, designation });
 
+        await user.save();
+        res.json({ status: true, message: 'User added successfully!', data: user });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: false, message: 'An error occurred!', errors: error });
+    }
+};
 
 module.exports = {
-    index,
-    store,
+    getAllUsers,
+    createUser,
     showUser
 };
