@@ -1,39 +1,24 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
 const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const multer = require('multer');
 const routes = require('./routes/routes');
+const connectDB = require('./config/db');
 const app = express();
 
 // Database
-mongoose.connect(process.env.DB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
-
-const db = mongoose.connection;
-
-db.on('error', (err) => {
-    console.log(err);
-});
-
-db.once('open', () => {
-    console.log('Database Connection Established!');
-});
+connectDB();
 
 // Middlewares
 app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
+// routes
+app.use('/api/user', routes);
 
 // Start the server
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-    console.log(`Server listening at port ${PORT}`);
+    console.log(`Server listening at port http://localhost:${PORT}`);
 });
-
-app.use('/api/user', routes);

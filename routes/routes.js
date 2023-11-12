@@ -1,22 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
+const upload = require('../config/multer');
 
 const UserController = require('../controllers/UserController');
 const TrackController = require('../controllers/TrackController');
 const LoginController = require('../controllers/LoginController');
 
-// multer middleware
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads/');
-    },
-    filename: function(req, file, cb) {
-        cb(null, file.originalname);
-    }
-});
-
-const upload = multer({ storage: storage });
 
 // user routes
 router.get('/', UserController.index);
