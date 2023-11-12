@@ -16,7 +16,7 @@ router.post('/add-user', UserController.createUser);
 router.post('/login', LoginController.login);
 
 // track routes
-router.post('/add-track', upload.single('image'), TrackController.store);
+router.post('/add-track', upload.single('image'), TrackController.addTrack);
 router.post('/show-track', TrackController.showTrack);
 router.post('/show-track-by-login', TrackController.showTrackByLogin);
 

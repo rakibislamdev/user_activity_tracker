@@ -1,55 +1,53 @@
 const Track = require('../models/TrackModel');
 
 // ------------- Add new track ------------------ \\
-const store = (req, res, next) => {
-    const uploadFile = req.file;
+const addTrack = async (req, res, next) => {
+    try {
+        const { login, performance, interval, image } = req.body;
+        const track = new Track({ login, performance, interval, image });
 
-    let track = new Track({
-        login: req.body.login,
-        performance: req.body.performance,
-        interval: req.body.interval,
-        image: uploadFile.path,
-    });
+        await track.save();
+        res.json({ status: true, message: 'Track added successfully!', data: track });
 
-    track.save()
-        .then(response => {
-            res.json({ message: 'Track Added Successfully!' });
-        })
-        .catch(error => {
-            console.error(error);
-            res.status(500).json({ message: 'An error occurred!' });
-        });
-
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: false, message: 'An error occurred!', errors: error });
+    }
 }
 
 
 // ------------- Show single track ------------------ \\
-const showTrack = (req, res, next) => {
-    let track_id = req.body.track_id;
-    Track.findById(track_id)
-        .then(response => {
-            res.json({ response });
-        })
-        .catch(error => {
-            console.error(error);
-            res.status(500).json({ message: 'Oops! An error occurred!' });
-        });
-};
+const showTrack = async (req, res, next) => {
+    try {
+        const track = await Track.findOne({ track_id: req.params.track_id });
+        if (!track) {
+            return res.status(400).json({ status: false, message: 'No track found!' });
+        }
+        res.json({ status: true, message: 'Your command successfully executed.', data: track });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: false, message: 'An error occurred!', errors: error });
+    }
+}
 
 // ------------ show track by login ----------------- \\
-const showTrackByLogin = (req, res, next) => {
-    let login = req.body.login;
-    Track.find({ login: login })
-        .then(response => {
-            res.json({ response });
-        })
-        .catch(error => {
-            console.error(error);
-            res.status(500).json({ message: 'Oops! An error occurred!' });
-        });
+const showTrackByLogin = async (req, res, next) => {
+    try {
+        const tracks = await Track.find({ login: req.body.login });
+        if (tracks.length === 0) {
+            return res.status(400).json({ status: false, message: 'No tracks found for the user!' });
+        }
+
+        res.json({ status: true, message: 'Your command successfully executed.', data: tracks });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: false, message: 'An error occurred!', errors: error });
+    }
 };
 
 
 module.exports = {
-    store, showTrack, showTrackByLogin
+    addTrack, showTrack, showTrackByLogin
 }
