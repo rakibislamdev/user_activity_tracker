@@ -3,16 +3,20 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     user_id: {
-        type: String,
+        type: Number,
+        required: true,
     },
     name: {
         type: String,
+        required: true,
     },
     email: {
         type: String,
+        require: true,
     },
     designation: {
         type: String,
+        required: true,
     },
 }, { timestamps: true });
 
